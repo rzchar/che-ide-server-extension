@@ -6,14 +6,15 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  */
-package org.eclipse.che.sample.ide;
+package edu.tongji.sse.qyd.fileanalyzer.ide;
 
 import com.google.inject.Inject;
+import edu.tongji.sse.qyd.fileanalyzer.ide.action.MyAction;
 import org.eclipse.che.ide.api.action.ActionManager;
 import org.eclipse.che.ide.api.action.DefaultActionGroup;
 import org.eclipse.che.ide.api.action.IdeActions;
+import org.eclipse.che.ide.api.constraints.Constraints;
 import org.eclipse.che.ide.api.extension.Extension;
-import org.eclipse.che.sample.ide.action.MyAction;
 
 /**
  * Server service extension that registers action which calls a service.
@@ -21,7 +22,7 @@ import org.eclipse.che.sample.ide.action.MyAction;
  * @author Edgar Mueller
  */
 @Extension(title = "Server Service Sample Extension", version = "0.0.1")
-public class ServerServiceExtension {
+public class FileAnalyzerExtension {
 
   /**
    * Constructor.
@@ -30,12 +31,12 @@ public class ServerServiceExtension {
    * @param myAction the action that calls the example server service
    */
   @Inject
-  public ServerServiceExtension(ActionManager actionManager, MyAction myAction) {
+  public FileAnalyzerExtension(ActionManager actionManager, MyAction myAction) {
 
     actionManager.registerAction("myAction", myAction);
 
     DefaultActionGroup mainContextMenuGroup =
-        (DefaultActionGroup) actionManager.getAction(IdeActions.GROUP_MAIN_CONTEXT_MENU);
-    mainContextMenuGroup.add(myAction);
+        (DefaultActionGroup) actionManager.getAction(IdeActions.GROUP_EDITOR_CONTEXT_MENU);
+    mainContextMenuGroup.add(myAction, Constraints.LAST);
   }
 }

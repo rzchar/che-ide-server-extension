@@ -12,18 +12,35 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>plugin-serverservice-assembly-parent</artifactId>
-        <groupId>org.eclipse.che.sample</groupId>
-        <version>6.19.0-SNAPSHOT</version>
+        <artifactId>qyd-extension-assembly-parent</artifactId>
+        <groupId>edu.tongji.sse.qyd</groupId>
+        <version>6.16.0</version>
     </parent>
     <artifactId>assembly-wsagent-server</artifactId>
     <packaging>pom</packaging>
-    <name>Plugin ServerService :: Che Assembly :: Workspace Agent Tomcat Assembly</name>
+    <name>QYD Che :: Che Assembly :: Workspace Agent Tomcat Assembly</name>
     <dependencies>
         <dependency>
-            <groupId>org.eclipse.che.sample</groupId>
+            <groupId>edu.tongji.sse.qyd</groupId>
             <artifactId>assembly-wsagent-war</artifactId>
             <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.shared</groupId>
+            <artifactId>maven-dependency-tree</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.che.core</groupId>
+            <artifactId>che-core-commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.che.lib</groupId>
+            <artifactId>che-tomcat8-slf4j-logback</artifactId>
+            <type>zip</type>
         </dependency>
     </dependencies>
     <build>

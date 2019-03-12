@@ -6,11 +6,11 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  */
-package org.eclipse.che.sample.inject;
+package edu.tongji.sse.qyd.fileanalyzer.ide.inject;
 
 import com.google.inject.AbstractModule;
+import edu.tongji.sse.qyd.fileanalyzer.ide.MyService;
 import org.eclipse.che.inject.DynaModule;
-import org.eclipse.che.sample.MyService;
 
 /** Server service example Guice module for setting up a simple service. */
 @DynaModule

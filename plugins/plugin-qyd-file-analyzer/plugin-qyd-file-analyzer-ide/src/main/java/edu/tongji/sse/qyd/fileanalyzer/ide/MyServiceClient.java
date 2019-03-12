@@ -6,7 +6,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  */
-package org.eclipse.che.sample.ide;
+package edu.tongji.sse.qyd.fileanalyzer.ide;
 
 import javax.inject.Inject;
 import org.eclipse.che.api.promises.client.Promise;
