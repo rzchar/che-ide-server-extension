@@ -12,15 +12,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>plugin-qyd-root</artifactId>
-        <groupId>edu.tongji.sse.qyd</groupId>
+        <artifactId>plugin-project5-root</artifactId>
+        <groupId>edu.tongji.sse.project5</groupId>
         <version>6.16.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <groupId>edu.tongji.sse.qyd</groupId>
-    <artifactId>qyd-extension-assembly-parent</artifactId>
+    <groupId>edu.tongji.sse.project5</groupId>
+    <artifactId>project5-extension-assembly-parent</artifactId>
     <packaging>pom</packaging>
-    <name>QYD Che :: Che Assembly :: Assembly Parent</name>
+    <name>Project5 Che :: Che Assembly :: Assembly Parent</name>
   <modules>
     <module>assembly-wsagent-war</module>
     <module>assembly-wsagent-server</module>

@@ -16,8 +16,8 @@
         <groupId>org.eclipse.che.depmgt</groupId>
         <version>6.16.0</version>
     </parent>
-    <groupId>edu.tongji.sse.qyd</groupId>
-    <artifactId>plugin-qyd-root</artifactId>
+    <groupId>edu.tongji.sse.project5</groupId>
+    <artifactId>plugin-project5-root</artifactId>
     <version>6.16.0</version>
     <packaging>pom</packaging>
     <name>QYD Che :: Parent pom</name>
@@ -34,38 +34,44 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>edu.tongji.sse.qyd</groupId>
+                <groupId>edu.tongji.sse.project5</groupId>
                 <artifactId>assembly-ide-war</artifactId>
                 <version>${project.version}</version>
                 <type>war</type>
             </dependency>
             <dependency>
-                <groupId>edu.tongji.sse.qyd</groupId>
+                <groupId>edu.tongji.sse.project5</groupId>
                 <artifactId>assembly-wsagent-server</artifactId>
                 <version>${project.version}</version>
                 <type>tar.gz</type>
             </dependency>
             <dependency>
-                 <groupId>edu.tongji.sse.qyd</groupId>
+                <groupId>edu.tongji.sse.project5</groupId>
                 <artifactId>assembly-wsagent-war</artifactId>
                 <version>${project.version}</version>
                 <type>war</type>
             </dependency>
             <dependency>
-                <groupId>edu.tongji.sse.qyd</groupId>
-                <artifactId>plugin-qyd-file-analyzer-ide</artifactId>
-                <version>${project.version}</version>
+                <artifactId>plugin-notifier-center-ide</artifactId>
+                <groupId>edu.tongji.sse.notifiercenter</groupId>
+                <version>0.0.1</version>
                 <type>gwt-lib</type>
             </dependency>
             <dependency>
                 <groupId>edu.tongji.sse.qyd</groupId>
-                <artifactId>plugin-qyd-file-analyzer-server</artifactId>
-                <version>${project.version}</version>
+                <artifactId>plugin-recommender-sample-ide</artifactId>
+                <version>0.0.1</version>
+                <type>gwt-lib</type>
             </dependency>
             <dependency>
                 <groupId>edu.tongji.sse.qyd</groupId>
-                <artifactId>plugin-qyd-file-analyzer-server</artifactId>
-                <version>${project.version}</version>
+                <artifactId>plugin-recommender-sample-server</artifactId>
+                <version>0.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>edu.tongji.sse.qyd</groupId>
+                <artifactId>plugin-recommender-sample-server</artifactId>
+                <version>0.0.1</version>
                 <type>jar</type>
             </dependency>
             <dependency>

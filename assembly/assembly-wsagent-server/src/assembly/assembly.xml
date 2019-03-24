@@ -23,7 +23,7 @@
             <outputDirectory>webapps</outputDirectory>
             <outputFileNameMapping>ROOT.war</outputFileNameMapping>
             <includes>
-                <include>edu.tongji.sse.qyd:assembly-wsagent-war</include>
+                <include>edu.tongji.sse.project5:assembly-wsagent-war</include>
             </includes>
         </dependencySet>
     </dependencySets>

@@ -23,7 +23,7 @@
             <outputDirectory>tomcat/webapps</outputDirectory>
             <outputFileNameMapping>ROOT.war</outputFileNameMapping>
             <includes>
-                <include>edu.tongji.sse.qyd:assembly-ide-war</include>
+                <include>edu.tongji.sse.project5:assembly-ide-war</include>
             </includes>
         </dependencySet>
         <dependencySet>
@@ -32,7 +32,7 @@
             <outputDirectory>lib</outputDirectory>
             <outputFileNameMapping>ws-agent.tar.gz</outputFileNameMapping>
             <includes>
-                <include>edu.tongji.sse.qyd:assembly-wsagent-server</include>
+                <include>edu.tongji.sse.project5:assembly-wsagent-server</include>
             </includes>
         </dependencySet>
     </dependencySets>

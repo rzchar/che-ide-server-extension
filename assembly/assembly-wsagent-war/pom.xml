@@ -12,13 +12,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>qyd-extension-assembly-parent</artifactId>
-        <groupId>edu.tongji.sse.qyd</groupId>
+        <artifactId>project5-extension-assembly-parent</artifactId>
+        <groupId>edu.tongji.sse.project5</groupId>
         <version>6.16.0</version>
     </parent>
     <artifactId>assembly-wsagent-war</artifactId>
     <packaging>war</packaging>
-    <name>QYD Che :: Che Assembly :: Workspace Agent Assembly</name>
+    <name>Project 5 Che :: Che Assembly :: Workspace Agent Assembly</name>
     <dependencies>
         <dependency>
             <groupId>org.eclipse.che</groupId>
@@ -27,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>edu.tongji.sse.qyd</groupId>
-            <artifactId>plugin-qyd-file-analyzer-server</artifactId>
+            <artifactId>plugin-recommender-sample-server</artifactId>
         </dependency>
     </dependencies>
     <build>
