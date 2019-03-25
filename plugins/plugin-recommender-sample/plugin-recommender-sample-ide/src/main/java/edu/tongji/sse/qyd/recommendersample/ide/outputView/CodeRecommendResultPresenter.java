@@ -3,7 +3,7 @@ package edu.tongji.sse.qyd.recommendersample.ide.outputView;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.inject.Inject;
-import javax.inject.Singleton;
+import com.google.inject.Singleton;
 import org.eclipse.che.ide.api.parts.base.BasePresenter;
 
 @Singleton

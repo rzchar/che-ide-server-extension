@@ -19,7 +19,7 @@
     <artifactId>plugin-recommender-sample-server</artifactId>
     <groupId>edu.tongji.sse.qyd</groupId>
     <version>0.0.1</version>
-    <name>QYD Che :: Plugin :: Server</name>
+    <name>QYD Recommender :: Plugin :: Server</name>
     <packaging>jar</packaging>
     <properties>
         <findbugs.failonerror>false</findbugs.failonerror>

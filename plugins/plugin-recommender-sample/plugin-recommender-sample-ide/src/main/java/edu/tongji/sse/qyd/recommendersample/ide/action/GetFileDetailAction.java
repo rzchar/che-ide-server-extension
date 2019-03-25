@@ -1,9 +1,9 @@
 package edu.tongji.sse.qyd.recommendersample.ide.action;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import edu.tongji.sse.qyd.recommendersample.ide.outputView.CodeRecommendResultPresenter;
 import java.util.Map;
-import javax.inject.Singleton;
 import org.eclipse.che.ide.api.action.ActionEvent;
 import org.eclipse.che.ide.api.action.BaseAction;
 import org.eclipse.che.ide.api.app.AppContext;

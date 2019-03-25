@@ -20,7 +20,7 @@
     <groupId>edu.tongji.sse.project5</groupId>
     <artifactId>project5-extension-assembly-parent</artifactId>
     <packaging>pom</packaging>
-    <name>Project5 Che :: Che Assembly :: Assembly Parent</name>
+    <name>Project 5 Che :: Che Assembly :: Assembly Parent</name>
   <modules>
     <module>assembly-wsagent-war</module>
     <module>assembly-wsagent-server</module>

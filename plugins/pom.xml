@@ -19,7 +19,7 @@
     </parent>
     <artifactId>plugin-parent</artifactId>
     <packaging>pom</packaging>
-    <name>QYD Che :: Plugins ::  Parent</name>
+    <name>Project 5 Che :: Plugins ::  Parent</name>
     <modules>
         <module>plugin-recommender-sample</module>
         <module>plugin-notifier-center</module>
