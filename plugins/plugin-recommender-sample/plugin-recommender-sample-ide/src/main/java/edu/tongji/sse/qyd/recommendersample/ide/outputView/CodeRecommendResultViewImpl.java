@@ -9,7 +9,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.inject.Inject;
 import org.eclipse.che.ide.api.parts.base.BaseView;
 
@@ -21,7 +21,7 @@ public class CodeRecommendResultViewImpl extends BaseView<CodeRecommendResultVie
 
   private final DockLayoutPanel rootElement;
 
-  @UiField FlowPanel resultTextLines;
+  @UiField ScrollPanel resultTextLines;
 
   @Inject
   public CodeRecommendResultViewImpl() {

@@ -7,6 +7,10 @@ import org.eclipse.che.ide.api.mvp.View;
 public interface NfConfigView extends View<NfConfigView.ActionDelegate> {
   interface ActionDelegate {}
 
+  void saveChange();
+
+  void cancelChange();
+
   void close();
 
   void showDialog();
