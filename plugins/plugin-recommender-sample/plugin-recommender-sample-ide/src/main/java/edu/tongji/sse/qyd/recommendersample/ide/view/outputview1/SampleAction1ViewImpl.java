@@ -1,8 +1,8 @@
 package edu.tongji.sse.qyd.recommendersample.ide.view.outputview1;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Node;
-import com.google.gwt.dom.client.ParagraphElement;
 import com.google.gwt.dom.client.PreElement;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -48,10 +48,10 @@ public class SampleAction1ViewImpl extends BaseView<SampleAction1View.ActionDele
       Node firstChild = resultTextLines.getElement().getFirstChild();
       resultTextLines.getElement().removeChild(firstChild);
     }
-    ParagraphElement paragraph = DOM.createElement("p").cast();
-    // PreElement pre = DOM.createElement("pre").cast();
-    paragraph.setInnerText(SafeHtmlUtils.htmlEscape(text));
-    resultTextLines.getElement().appendChild(paragraph);
+    DivElement div = DOM.createElement("div").cast();
+    div.setInnerText(SafeHtmlUtils.htmlEscape(text));
+    resultTextLines.getElement().appendChild(div);
+    this.resultTextLines.scrollToBottom();
   }
 
   interface CodeRecommendResultViewImplUiBinder

@@ -29,6 +29,18 @@ public class GetRecommendationService {
     return lines.length;
   }
 
+  private void getFileLinesRecursivly(String path, Map<String, String> linesPerFile)
+      throws ServerException, NotFoundException, ConflictException {
+    Set<String> fileWsPaths = fsManager.getFileWsPaths(path);
+    for (String fileWsPath : fileWsPaths) {
+      linesPerFile.put(WsPathUtils.nameOf(fileWsPath), Integer.toString(countLines(fileWsPath)));
+    }
+    Set<String> dirWsPaths = fsManager.getDirWsPaths(path);
+    for (String dirWsPath : dirWsPaths) {
+      getFileLinesRecursivly(dirWsPath, linesPerFile);
+    }
+  }
+
   @GET
   @Path("{projectPath}")
   public Map<String, String> countLinesPerFile(@PathParam("projectPath") String projectPath)
@@ -36,11 +48,7 @@ public class GetRecommendationService {
     String projectWsPath = WsPathUtils.absolutize(projectPath);
 
     Map<String, String> linesPerFile = new LinkedHashMap<>();
-    Set<String> fileWsPaths = fsManager.getFileWsPaths(projectWsPath);
-    for (String fileWsPath : fileWsPaths) {
-      linesPerFile.put(WsPathUtils.nameOf(fileWsPath), Integer.toString(countLines(fileWsPath)));
-    }
-
+    getFileLinesRecursivly(projectWsPath, linesPerFile);
     return linesPerFile;
   }
 }
