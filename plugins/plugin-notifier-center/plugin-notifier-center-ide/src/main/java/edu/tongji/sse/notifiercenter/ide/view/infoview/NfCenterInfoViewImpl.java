@@ -1,8 +1,10 @@
 package edu.tongji.sse.notifiercenter.ide.view.infoview;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.inject.Inject;
@@ -21,6 +23,13 @@ public class NfCenterInfoViewImpl extends BaseView<NfCenterInfoView.ActionDelega
   public NfCenterInfoViewImpl() {
     rootElement = UI_BINDER.createAndBindUi(this);
     setContentWidget(rootElement);
+  }
+
+  @Override
+  public void appendLine(String text) {
+    DivElement divElement = DOM.createElement("div").cast();
+    divElement.setInnerHTML(text);
+    nfCenterTextLines.getElement().appendChild(divElement);
   }
 
   interface NfCenterInfoViewImplUiBinder extends UiBinder<DockLayoutPanel, NfCenterInfoViewImpl> {}

@@ -8,7 +8,11 @@ import com.google.inject.Inject;
 import edu.tongji.sse.notifiercenter.ide.controller.IntelligentPluginManager;
 import edu.tongji.sse.notifiercenter.ide.interfaces.IntelligentConfigPresenter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.eclipse.che.ide.api.notification.NotificationManager;
+import org.eclipse.che.ide.api.notification.StatusNotification;
 import org.eclipse.che.ide.ui.window.Window;
 
 public class NfConfigViewImpl extends Window implements NfConfigView {
@@ -24,15 +28,19 @@ public class NfConfigViewImpl extends Window implements NfConfigView {
 
   private List<CheckBox> checkBoxes;
 
+  private NotificationManager notificationManager;
+
   @UiField ScrollPanel configPanel;
 
   @Inject
-  public NfConfigViewImpl(IntelligentPluginManager intelligentPluginManager) {
+  public NfConfigViewImpl(
+      IntelligentPluginManager intelligentPluginManager, NotificationManager notificationManager) {
     rootElement = UI_BINDER.createAndBindUi(this);
     this.intelligentPluginManager = intelligentPluginManager;
+    this.notificationManager = notificationManager;
     setWidget(rootElement);
-    addFooterButton("Save", "intelligent-config-save", clickEvent -> saveChange());
-    addFooterButton("Cancel", "intelligent-config-cancel", clickEvent -> cancelChange());
+    addFooterButton("Save", "intelligent-config-save", clickEvent -> this.saveChange());
+    addFooterButton("Cancel", "intelligent-config-cancel", clickEvent -> this.cancelChange());
   }
 
   @Override
@@ -48,30 +56,43 @@ public class NfConfigViewImpl extends Window implements NfConfigView {
   @Override
   public void showDialog() {
     checkBoxes = new ArrayList<>();
-    configPanel.getElement().setInnerHTML("");
+    configPanel.getElement().removeAllChildren();
     for (String pluginName : intelligentPluginManager.getRegisteredPlugins()) {
       FlowPanel flowPanel = new FlowPanel();
       CheckBox checkBox = new CheckBox();
       checkBox.setText(pluginName);
       checkBox.setValue(intelligentPluginManager.isPluginEnabled(pluginName));
-      flowPanel.add(checkBox);
+      flowPanel.getElement().appendChild(checkBox.getElement());
       checkBoxes.add(checkBox);
       IntelligentConfigPresenter icp = intelligentPluginManager.getCongfigPresenter(pluginName);
       if (icp != null) {
         Button button = new Button();
         button.addClickHandler(clickEvent -> icp.showConfigWindow());
-        flowPanel.add(button);
+        flowPanel.getElement().appendChild(button.getElement());
       }
-      configPanel.add(flowPanel);
+      configPanel.getElement().appendChild(flowPanel.getElement());
     }
     this.show();
   }
 
   @Override
-  public void saveChange() {}
+  public void saveChange() {
+    Map<String, String> availability = new HashMap();
+    for (CheckBox checkBox : checkBoxes) {
+      availability.put(checkBox.getText(), checkBox.getValue().toString());
+    }
+    this.intelligentPluginManager.savePluginAvailability(availability);
+    this.notificationManager.notify(
+        "Save succeed",
+        "Save intelligent plugins config succeed",
+        StatusNotification.Status.SUCCESS,
+        StatusNotification.DisplayMode.FLOAT_MODE);
+  }
 
   @Override
-  public void cancelChange() {}
+  public void cancelChange() {
+    this.hide();
+  }
 
   interface NfConfigViewImplUiBinder extends UiBinder<DockLayoutPanel, NfConfigViewImpl> {}
 }

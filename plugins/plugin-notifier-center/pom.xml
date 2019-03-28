@@ -14,6 +14,7 @@
     <version>0.0.1</version>
     <modules>
         <module>plugin-notifier-center-ide</module>
+        <module>plugin-notifier-center-server</module>
     </modules>
     <packaging>pom</packaging>
     <build>

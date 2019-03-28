@@ -29,6 +29,10 @@
             <groupId>edu.tongji.sse.qyd</groupId>
             <artifactId>plugin-recommender-sample-server</artifactId>
         </dependency>
+        <dependency>
+            <groupId>edu.tongji.sse.notifiercenter</groupId>
+            <artifactId>plugin-notifier-center-server</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

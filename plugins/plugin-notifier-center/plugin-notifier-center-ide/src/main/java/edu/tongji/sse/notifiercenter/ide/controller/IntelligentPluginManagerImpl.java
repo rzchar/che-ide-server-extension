@@ -1,12 +1,22 @@
 package edu.tongji.sse.notifiercenter.ide.controller;
 
+import static org.eclipse.che.ide.MimeType.APPLICATION_JSON;
+import static org.eclipse.che.ide.rest.HTTPHeader.CONTENT_TYPE;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import edu.tongji.sse.notifiercenter.ide.interfaces.IntelligentConfigPresenter;
 import edu.tongji.sse.notifiercenter.ide.interfaces.IntelligentResultPresenter;
+import edu.tongji.sse.notifiercenter.ide.view.infoview.NfCenterInfoPresenter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.che.ide.api.app.AppContext;
+import org.eclipse.che.ide.json.JsonHelper;
+import org.eclipse.che.ide.rest.AsyncRequestFactory;
+import org.eclipse.che.ide.rest.AsyncRequestLoader;
+import org.eclipse.che.ide.rest.StringMapUnmarshaller;
+import org.eclipse.che.ide.ui.loaders.request.LoaderFactory;
 
 @Singleton
 public class IntelligentPluginManagerImpl implements IntelligentPluginManager {
@@ -17,10 +27,30 @@ public class IntelligentPluginManagerImpl implements IntelligentPluginManager {
 
   private Map<String, Boolean> pluginAvailability;
 
+  private AppContext appContext;
+
+  private AsyncRequestFactory asyncRequestFactory;
+
+  private AsyncRequestLoader asyncRequestLoader;
+
+  private NfCenterInfoPresenter nfCenterInfoPresenter;
+
+  private static String PREFERENCE_PATH = "intelligentPluginPreference/";
+
+  private static String WORKSPACE = "workspace/";
+
   @Inject
-  public IntelligentPluginManagerImpl() {
+  public IntelligentPluginManagerImpl(
+      AppContext appContext,
+      AsyncRequestFactory asyncRequestFactory,
+      NfCenterInfoPresenter nfCenterInfoPresenter,
+      LoaderFactory loaderFactory) {
     intelligentResultPresenterMap = new HashMap<>();
     intelligentConfigPresenterMap = new HashMap<>();
+    this.appContext = appContext;
+    this.asyncRequestFactory = asyncRequestFactory;
+    this.nfCenterInfoPresenter = nfCenterInfoPresenter;
+    this.asyncRequestLoader = loaderFactory.newLoader();
     this.loadPluginSwitch();
   }
 
@@ -66,7 +96,52 @@ public class IntelligentPluginManagerImpl implements IntelligentPluginManager {
     return this.intelligentResultPresenterMap.keySet();
   }
 
+  @Override
+  public boolean savePluginAvailability(Map<String, String> availabilityMap) {
+    this.nfCenterInfoPresenter.appendLine("plugin config clicked");
+    String url = appContext.getWsAgentServerApiEndpoint() + "/" + PREFERENCE_PATH;
+    String data = JsonHelper.toJson(availabilityMap);
+
+    this.asyncRequestFactory
+        .createPostRequest(url, null)
+        .data(data)
+        .header(CONTENT_TYPE, APPLICATION_JSON)
+        .send()
+        .then(
+            succeed -> nfCenterInfoPresenter.appendLine("[post return from backend]"),
+            reject -> {
+              nfCenterInfoPresenter.appendLine("[post rejected by backend]" + reject.getMessage());
+            })
+        .catchError(
+            error -> {
+              nfCenterInfoPresenter.appendLine("[post error]" + error.getMessage());
+            });
+    return false;
+  }
+
   private void loadPluginSwitch() {
     this.pluginAvailability = new HashMap<>();
+
+    String url = appContext.getWsAgentServerApiEndpoint() + "/" + PREFERENCE_PATH;
+
+    nfCenterInfoPresenter.appendLine("url=" + url);
+
+    this.asyncRequestFactory
+        .createGetRequest(url)
+        .header(CONTENT_TYPE, APPLICATION_JSON)
+        .send(new StringMapUnmarshaller())
+        .then(
+            preference -> {
+              nfCenterInfoPresenter.appendLine(preference.toString());
+              for (String str : preference.keySet()) {
+                boolean b = preference.get(str).equalsIgnoreCase("true");
+                nfCenterInfoPresenter.appendLine("[get return from backend]" + str + " : " + b);
+                this.pluginAvailability.put(str, b);
+              }
+            })
+        .catchError(
+            error -> {
+              nfCenterInfoPresenter.appendLine("[get error]" + error.getMessage());
+            });
   }
 }

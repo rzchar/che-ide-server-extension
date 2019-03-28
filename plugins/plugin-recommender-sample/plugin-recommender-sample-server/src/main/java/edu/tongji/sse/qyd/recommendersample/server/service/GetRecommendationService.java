@@ -8,18 +8,17 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import org.eclipse.che.api.core.ConflictException;
-import org.eclipse.che.api.core.ForbiddenException;
 import org.eclipse.che.api.core.NotFoundException;
 import org.eclipse.che.api.core.ServerException;
 import org.eclipse.che.api.fs.server.FsManager;
 import org.eclipse.che.api.fs.server.WsPathUtils;
 
-@Path("analyzeFile/{ws-id}")
-public class GetFileDetailService {
+@Path("getFileLines/{ws-id}")
+public class GetRecommendationService {
   private FsManager fsManager;
 
   @Inject
-  public GetFileDetailService(FsManager fsManager) {
+  public GetRecommendationService(FsManager fsManager) {
     this.fsManager = fsManager;
   }
 
@@ -30,16 +29,6 @@ public class GetFileDetailService {
     return lines.length;
   }
 
-  /**
-   * Count LOC for all JSON files within the given project.
-   *
-   * @param projectPath the path to the project that contains the JSON files for which to calculate
-   *     the LOC
-   * @return a Map mapping the file name to their respective LOC value
-   * @throws ServerException in case the server encounters an error
-   * @throws org.eclipse.che.api.core.NotFoundException in case the project couldn't be found
-   * @throws ForbiddenException in case the operation is forbidden
-   */
   @GET
   @Path("{projectPath}")
   public Map<String, String> countLinesPerFile(@PathParam("projectPath") String projectPath)

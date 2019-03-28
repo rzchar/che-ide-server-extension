@@ -2,7 +2,7 @@ package edu.tongji.sse.qyd.recommendersample.ide.action;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import edu.tongji.sse.qyd.recommendersample.ide.outputView.CodeRecommendResultPresenter;
+import edu.tongji.sse.qyd.recommendersample.ide.view.outputview1.SampleAction1Presenter;
 import java.util.Map;
 import org.eclipse.che.ide.api.action.ActionEvent;
 import org.eclipse.che.ide.api.action.BaseAction;
@@ -15,14 +15,14 @@ import org.eclipse.che.ide.rest.AsyncRequestFactory;
 import org.eclipse.che.ide.rest.StringMapUnmarshaller;
 
 @Singleton
-public class GetFileDetailAction extends BaseAction {
+public class SampleAction2GetWorkspaceOnQuestionMark extends BaseAction {
 
   private final AppContext appContext;
   private final StringMapUnmarshaller unmarshaller;
   private final AsyncRequestFactory asyncRequestFactory;
   private final NotificationManager notificationManager;
   private final OutputConsoleView consoleView;
-  private final CodeRecommendResultPresenter presenter;
+  private final SampleAction1Presenter presenter;
 
   /**
    * Constructor
@@ -32,12 +32,12 @@ public class GetFileDetailAction extends BaseAction {
    * @param notificationManager the notification manager used to display the lines of code per file
    */
   @Inject
-  public GetFileDetailAction(
+  public SampleAction2GetWorkspaceOnQuestionMark(
       AppContext appContext,
       AsyncRequestFactory asyncRequestFactory,
       NotificationManager notificationManager,
       OutputConsoleView consoleView,
-      CodeRecommendResultPresenter presenter) {
+      SampleAction1Presenter presenter) {
 
     super("Analyzer From Current File", "try to call the wsagent to analyze");
 
@@ -53,7 +53,7 @@ public class GetFileDetailAction extends BaseAction {
   public void actionPerformed(ActionEvent e) {
     String url =
         appContext.getWsAgentServerApiEndpoint()
-            + "/analyzeFile/"
+            + "/getFile/"
             + appContext.getWorkspaceId()
             + "/"
             + appContext.getRootProject().getLocation();
@@ -64,7 +64,7 @@ public class GetFileDetailAction extends BaseAction {
               @Override
               protected void onSuccess(Map<String, String> result) {
                 notificationManager.notify(
-                    "GetFileDetailAction Success",
+                    "SampleAction2GetWorkspaceOnQuestionMark Success",
                     StatusNotification.Status.SUCCESS,
                     StatusNotification.DisplayMode.FLOAT_MODE);
                 for (String key : result.keySet()) {
@@ -83,7 +83,7 @@ public class GetFileDetailAction extends BaseAction {
                 }
                 presenter.appendTextLine(sbForStaceTrace.toString());
                 notificationManager.notify(
-                    "GetFileDetailAction Fail",
+                    "SampleAction2GetWorkspaceOnQuestionMark Fail",
                     StatusNotification.Status.FAIL,
                     StatusNotification.DisplayMode.FLOAT_MODE);
               }

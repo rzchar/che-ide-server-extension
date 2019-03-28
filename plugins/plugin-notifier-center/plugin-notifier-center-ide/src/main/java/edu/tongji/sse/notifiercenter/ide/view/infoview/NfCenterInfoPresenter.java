@@ -45,4 +45,9 @@ public class NfCenterInfoPresenter extends BasePresenter
   public SVGResource getTitleImage() {
     return nfResources.eventsPartIcon();
   }
+
+  @Override
+  public void appendLine(String text) {
+    this.view.appendLine(text);
+  }
 }

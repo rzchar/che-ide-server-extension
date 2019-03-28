@@ -1,4 +1,4 @@
-package edu.tongji.sse.qyd.recommendersample.ide.outputView;
+package edu.tongji.sse.qyd.recommendersample.ide.view.outputview1;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Node;
@@ -13,8 +13,8 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.inject.Inject;
 import org.eclipse.che.ide.api.parts.base.BaseView;
 
-public class CodeRecommendResultViewImpl extends BaseView<CodeRecommendResultView.ActionDelegate>
-    implements CodeRecommendResultView {
+public class SampleAction1ViewImpl extends BaseView<SampleAction1View.ActionDelegate>
+    implements SampleAction1View {
 
   private static final CodeRecommendResultViewImplUiBinder UI_BINDER =
       GWT.create(CodeRecommendResultViewImplUiBinder.class);
@@ -24,7 +24,7 @@ public class CodeRecommendResultViewImpl extends BaseView<CodeRecommendResultVie
   @UiField ScrollPanel resultTextLines;
 
   @Inject
-  public CodeRecommendResultViewImpl() {
+  public SampleAction1ViewImpl() {
     rootElement = UI_BINDER.createAndBindUi(this);
     setContentWidget(rootElement);
   }
@@ -55,5 +55,5 @@ public class CodeRecommendResultViewImpl extends BaseView<CodeRecommendResultVie
   }
 
   interface CodeRecommendResultViewImplUiBinder
-      extends UiBinder<DockLayoutPanel, CodeRecommendResultViewImpl> {}
+      extends UiBinder<DockLayoutPanel, SampleAction1ViewImpl> {}
 }

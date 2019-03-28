@@ -9,13 +9,16 @@
 package edu.tongji.sse.qyd.recommendersample.ide;
 
 import com.google.inject.Inject;
-import edu.tongji.sse.qyd.recommendersample.ide.action.GetFileDetailAction;
-import edu.tongji.sse.qyd.recommendersample.ide.action.MyAction;
+import edu.tongji.sse.notifiercenter.ide.controller.IntelligentPluginManager;
+import edu.tongji.sse.qyd.recommendersample.ide.action.SampleAction1GetFileLinesOnRightClick;
+import edu.tongji.sse.qyd.recommendersample.ide.action.SampleAction2GetWorkspaceOnQuestionMark;
 import org.eclipse.che.ide.api.action.ActionManager;
 import org.eclipse.che.ide.api.action.DefaultActionGroup;
 import org.eclipse.che.ide.api.action.IdeActions;
 import org.eclipse.che.ide.api.constraints.Constraints;
 import org.eclipse.che.ide.api.extension.Extension;
+import org.eclipse.che.ide.api.parts.PartStackType;
+import org.eclipse.che.ide.api.parts.WorkspaceAgent;
 
 /**
  * Server service extension that registers action which calls a service.
@@ -25,22 +28,39 @@ import org.eclipse.che.ide.api.extension.Extension;
 @Extension(title = "Server Service Sample Extension", version = "0.0.1")
 public class RecommenderSampleExtension {
 
-  /**
-   * Constructor.
-   *
-   * @param actionManager the {@link ActionManager} that is used to register our actions
-   * @param myAction the action that calls the example server service
-   */
+  private IntelligentPluginManager intelligentPluginManager;
+
+  private WorkspaceAgent workspaceAgent;
+
+  private ActionManager actionManager;
+
   @Inject
   public RecommenderSampleExtension(
-      ActionManager actionManager, MyAction myAction, GetFileDetailAction getFileDetailAction) {
+      ActionManager actionManager,
+      WorkspaceAgent workspaceAgent,
+      IntelligentPluginManager intelligentPluginManager,
+      SampleAction1GetFileLinesOnRightClick sampleAction1GetFileLinesOnRightClick,
+      SampleAction2GetWorkspaceOnQuestionMark sampleAction2GetWorkspaceOnQuestionMark) {
 
-    actionManager.registerAction("myAction", myAction);
+    this.intelligentPluginManager = intelligentPluginManager;
+    this.actionManager = actionManager;
+    this.workspaceAgent = workspaceAgent;
 
+    this.prepareSampleAction1(sampleAction1GetFileLinesOnRightClick);
+    intelligentPluginManager.registerPlugin(
+        "Sample Action 1", sampleAction1GetFileLinesOnRightClick.getIntelligentPresenter());
+    // mouseRightClickGroup.add(sampleAction2, Constraints.LAST);
+  }
+
+  private void prepareSampleAction1(
+      SampleAction1GetFileLinesOnRightClick sampleAction1GetFileLinesOnRightClick) {
+    actionManager.registerAction(
+        "SampleAction1GetFileLinesOnRightClick", sampleAction1GetFileLinesOnRightClick);
     DefaultActionGroup mouseRightClickGroup =
         (DefaultActionGroup) actionManager.getAction(IdeActions.GROUP_EDITOR_CONTEXT_MENU);
+    mouseRightClickGroup.add(sampleAction1GetFileLinesOnRightClick, Constraints.LAST);
 
-    mouseRightClickGroup.add(myAction, Constraints.LAST);
-    mouseRightClickGroup.add(getFileDetailAction, Constraints.LAST);
+    workspaceAgent.openPart(
+        sampleAction1GetFileLinesOnRightClick.getBasePresenter(), PartStackType.INFORMATION);
   }
 }

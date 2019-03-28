@@ -7,5 +7,9 @@ import org.eclipse.che.ide.api.parts.base.BaseActionDelegate;
 @ImplementedBy(NfCenterInfoViewImpl.class)
 public interface NfCenterInfoView extends View<NfCenterInfoView.ActionDelegate> {
 
-  interface ActionDelegate extends BaseActionDelegate {}
+  interface ActionDelegate extends BaseActionDelegate {
+    void appendLine(String text);
+  }
+
+  void appendLine(String text);
 }

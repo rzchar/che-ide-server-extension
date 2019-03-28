@@ -9,7 +9,7 @@
 package edu.tongji.sse.qyd.recommendersample.server.inject;
 
 import com.google.inject.AbstractModule;
-import edu.tongji.sse.qyd.recommendersample.server.service.MyService;
+import edu.tongji.sse.qyd.recommendersample.server.service.GetRecommendationService;
 import org.eclipse.che.inject.DynaModule;
 
 /** Server service example Guice module for setting up a simple service. */
@@ -18,6 +18,6 @@ public class ServerServiceGuiceModule extends AbstractModule {
 
   @Override
   protected void configure() {
-    bind(MyService.class);
+    bind(GetRecommendationService.class);
   }
 }
