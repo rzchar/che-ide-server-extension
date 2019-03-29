@@ -1,4 +1,4 @@
-package edu.tongji.sse.notifiercenter.ide.controller;
+package edu.tongji.sse.notifiercenter.ide.manager;
 
 import static org.eclipse.che.ide.MimeType.APPLICATION_JSON;
 import static org.eclipse.che.ide.rest.HTTPHeader.CONTENT_TYPE;
@@ -143,5 +143,12 @@ public class IntelligentPluginManagerImpl implements IntelligentPluginManager {
             error -> {
               nfCenterInfoPresenter.appendLine("[get error]" + error.getMessage());
             });
+  }
+
+
+
+  private void addEventListener(){
+
+
   }
 }

@@ -33,7 +33,7 @@ public class GetRecommendationService {
       throws ServerException, NotFoundException, ConflictException {
     Set<String> fileWsPaths = fsManager.getFileWsPaths(path);
     for (String fileWsPath : fileWsPaths) {
-      linesPerFile.put(WsPathUtils.nameOf(fileWsPath), Integer.toString(countLines(fileWsPath)));
+      linesPerFile.put(fileWsPath, Integer.toString(countLines(fileWsPath)));
     }
     Set<String> dirWsPaths = fsManager.getDirWsPaths(path);
     for (String dirWsPath : dirWsPaths) {

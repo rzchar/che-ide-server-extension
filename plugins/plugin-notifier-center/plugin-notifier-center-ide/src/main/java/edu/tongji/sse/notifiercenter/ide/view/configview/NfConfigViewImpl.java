@@ -5,7 +5,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.*;
 import com.google.inject.Inject;
-import edu.tongji.sse.notifiercenter.ide.controller.IntelligentPluginManager;
+import edu.tongji.sse.notifiercenter.ide.manager.IntelligentPluginManager;
 import edu.tongji.sse.notifiercenter.ide.interfaces.IntelligentConfigPresenter;
 import java.util.ArrayList;
 import java.util.HashMap;

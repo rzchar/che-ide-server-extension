@@ -1,4 +1,4 @@
-package edu.tongji.sse.notifiercenter.ide.controller;
+package edu.tongji.sse.notifiercenter.ide.manager;
 
 import edu.tongji.sse.notifiercenter.ide.interfaces.IntelligentConfigPresenter;
 import edu.tongji.sse.notifiercenter.ide.interfaces.IntelligentResultPresenter;
