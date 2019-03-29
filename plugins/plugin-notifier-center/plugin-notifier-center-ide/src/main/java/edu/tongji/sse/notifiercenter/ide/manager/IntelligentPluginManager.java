@@ -18,9 +18,9 @@ public interface IntelligentPluginManager {
 
   boolean isPluginEnabled(String name);
 
-  Map<String, Boolean> getPluginAvailability();
+  Map<String, Boolean> getPluginAvailabilities();
 
   IntelligentConfigPresenter getCongfigPresenter(String name);
 
-  boolean savePluginAvailability(Map<String, String> availabilityMap);
+  void savePluginAvailability(Map<String, Boolean> availabilityMap);
 }

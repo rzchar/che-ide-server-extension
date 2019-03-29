@@ -46,7 +46,6 @@ public class GetRecommendationService {
   public Map<String, String> countLinesPerFile(@PathParam("projectPath") String projectPath)
       throws ServerException, NotFoundException, ConflictException {
     String projectWsPath = WsPathUtils.absolutize(projectPath);
-
     Map<String, String> linesPerFile = new LinkedHashMap<>();
     getFileLinesRecursivly(projectWsPath, linesPerFile);
     return linesPerFile;
