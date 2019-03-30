@@ -17,7 +17,6 @@ import org.eclipse.che.ide.api.action.DefaultActionGroup;
 import org.eclipse.che.ide.api.action.IdeActions;
 import org.eclipse.che.ide.api.constraints.Constraints;
 import org.eclipse.che.ide.api.extension.Extension;
-import org.eclipse.che.ide.api.parts.PartStackType;
 import org.eclipse.che.ide.api.parts.WorkspaceAgent;
 
 /**
@@ -47,8 +46,12 @@ public class RecommenderSampleExtension {
     this.workspaceAgent = workspaceAgent;
 
     this.prepareSampleAction1(sampleAction1GetFileLinesOnRightClick);
+    this.prepareSampleAction2(sampleAction2GetWorkspaceOnQuestionMark);
     intelligentPluginManager.registerPlugin(
-        "Sample Action 1", sampleAction1GetFileLinesOnRightClick.getIntelligentPresenter());
+        "Sample Action 1", sampleAction1GetFileLinesOnRightClick);
+    intelligentPluginManager.registerPlugin(
+        "Sample Action 2", sampleAction2GetWorkspaceOnQuestionMark);
+
     // mouseRightClickGroup.add(sampleAction2, Constraints.LAST);
   }
 
@@ -60,7 +63,20 @@ public class RecommenderSampleExtension {
         (DefaultActionGroup) actionManager.getAction(IdeActions.GROUP_EDITOR_CONTEXT_MENU);
     mouseRightClickGroup.add(sampleAction1GetFileLinesOnRightClick, Constraints.LAST);
 
-    workspaceAgent.openPart(
-        sampleAction1GetFileLinesOnRightClick.getBasePresenter(), PartStackType.INFORMATION);
+    //    workspaceAgent.openPart(
+    //        sampleAction1GetFileLinesOnRightClick.getBasePresenter(), PartStackType.INFORMATION);
+  }
+
+  private void prepareSampleAction2(
+      SampleAction2GetWorkspaceOnQuestionMark sampleAction2GetWorkspaceOnQuestionMark) {
+    actionManager.registerAction(
+        "SampleAction2GetWorkspaceOnQuestionMark", sampleAction2GetWorkspaceOnQuestionMark);
+    //        DefaultActionGroup mouseRightClickGroup =
+    //            (DefaultActionGroup)
+    // actionManager.getAction(IdeActions.GROUP_EDITOR_CONTEXT_MENU);
+    //        mouseRightClickGroup.add(sampleAction1GetFileLinesOnRightClick, Constraints.LAST);
+    //    workspaceAgent.openPart(
+    //        sampleAction2GetWorkspaceOnQuestionMark.getBasePresenter(),
+    // PartStackType.INFORMATION);
   }
 }

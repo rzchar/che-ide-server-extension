@@ -4,8 +4,10 @@
     <ui:style src="org/eclipse/che/ide/api/ui/style.css"></ui:style>
     <g:DockLayoutPanel  unit="PX" width="800px" height="600px">
         <g:center>
-            <g:ScrollPanel ui:field="configPanel" debugId="configPanel" >
+            <g:ScrollPanel>
+                <g:HTMLPanel ui:field="configPanel" debugId="configPanel" >
 
+                </g:HTMLPanel>
             </g:ScrollPanel>
         </g:center>
     </g:DockLayoutPanel>

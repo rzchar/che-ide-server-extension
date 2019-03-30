@@ -13,6 +13,7 @@ import org.eclipse.che.api.core.NotFoundException;
 import org.eclipse.che.api.core.ServerException;
 import org.eclipse.che.api.core.rest.Service;
 import org.eclipse.che.api.fs.server.FsManager;
+import org.eclipse.che.commons.env.EnvironmentContext;
 import org.json.JSONObject;
 
 @Path("intelliPluginAva/")
@@ -21,7 +22,7 @@ public class IntelligentAvailabilitiesService extends Service {
   private FsManager fsManager;
 
   private static final String INTELLIGENT_PLUGIN_AVAILABILITIES_FILE =
-      "/" + CHE_DIR + "/" + "intelligentAvailabilities.json";
+      "/" + CHE_DIR + "/user_{userName}/" + "intelligentAvailabilities.json";
 
   @Inject
   public IntelligentAvailabilitiesService(FsManager fsManager) {
@@ -41,13 +42,10 @@ public class IntelligentAvailabilitiesService extends Service {
   public Map<String, String> getAvailabilities()
       throws ConflictException, NotFoundException, ServerException {
     Map<String, String> result = new HashMap<>();
-    //    result.put(INTELLIGENT_PLUGIN_AVAILABILITIES_FILE, "true");
-    //    if (this.fsManager == null) {
-    //      result.put("fsmanager", "false");
-    //    }
-    if (fsManager.exists(INTELLIGENT_PLUGIN_AVAILABILITIES_FILE)) {
-      String strExistingAvailabilities =
-          fsManager.readAsString(INTELLIGENT_PLUGIN_AVAILABILITIES_FILE);
+    String userName = EnvironmentContext.getCurrent().getSubject().getUserId();
+    String filePath = INTELLIGENT_PLUGIN_AVAILABILITIES_FILE.replace("{userName}", userName);
+    if (fsManager.exists(filePath)) {
+      String strExistingAvailabilities = fsManager.readAsString(filePath);
       JSONObject jsonExistAvailabilities = new JSONObject(strExistingAvailabilities);
       for (String key : jsonExistAvailabilities.keySet()) {
         result.put(key, jsonExistAvailabilities.getString(key));
@@ -72,18 +70,19 @@ public class IntelligentAvailabilitiesService extends Service {
       throw new BadRequestException("Require non-null new availabilities");
     }
     Map<String, String> mapToPut = new HashMap<>();
-    if (fsManager.exists(INTELLIGENT_PLUGIN_AVAILABILITIES_FILE)) {
-      String strExistingAvailabilities =
-          fsManager.readAsString(INTELLIGENT_PLUGIN_AVAILABILITIES_FILE);
+    String userName = EnvironmentContext.getCurrent().getSubject().getUserId();
+    String filePath = INTELLIGENT_PLUGIN_AVAILABILITIES_FILE.replace("{userName}", userName);
+    if (fsManager.exists(filePath)) {
+      String strExistingAvailabilities = fsManager.readAsString(filePath);
       JSONObject jsonExistingAvailabilities = new JSONObject(strExistingAvailabilities);
       for (String key : jsonExistingAvailabilities.keySet()) {
         mapToPut.put(key, jsonExistingAvailabilities.get(key).toString());
       }
     } else {
-      fsManager.createFile(INTELLIGENT_PLUGIN_AVAILABILITIES_FILE);
+      fsManager.createFile(filePath);
     }
     mapToPut.putAll(newAvailabilities);
     JSONObject jsonToPut = new JSONObject(mapToPut);
-    fsManager.update(INTELLIGENT_PLUGIN_AVAILABILITIES_FILE, jsonToPut.toString());
+    fsManager.update(filePath, jsonToPut.toString());
   }
 }

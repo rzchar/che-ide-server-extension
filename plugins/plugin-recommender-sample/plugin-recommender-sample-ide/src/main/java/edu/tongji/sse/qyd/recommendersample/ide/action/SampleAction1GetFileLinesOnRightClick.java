@@ -9,20 +9,20 @@
 package edu.tongji.sse.qyd.recommendersample.ide.action;
 
 import com.google.inject.Inject;
-import edu.tongji.sse.notifiercenter.ide.interfaces.IntelligentResultPresenter;
+import edu.tongji.sse.notifiercenter.ide.action.BaseIntelligentAssistantAction;
 import edu.tongji.sse.qyd.recommendersample.ide.view.outputview1.SampleAction1Presenter;
 import org.eclipse.che.ide.api.action.ActionEvent;
-import org.eclipse.che.ide.api.action.BaseAction;
 import org.eclipse.che.ide.api.app.AppContext;
 import org.eclipse.che.ide.api.editor.EditorAgent;
 import org.eclipse.che.ide.api.editor.EditorPartPresenter;
 import org.eclipse.che.ide.api.notification.NotificationManager;
+import org.eclipse.che.ide.api.parts.PartPresenter;
 import org.eclipse.che.ide.api.parts.WorkspaceAgent;
 import org.eclipse.che.ide.api.parts.base.BasePresenter;
 import org.eclipse.che.ide.rest.AsyncRequestFactory;
 import org.eclipse.che.ide.rest.StringMapUnmarshaller;
 
-public class SampleAction1GetFileLinesOnRightClick extends BaseAction {
+public class SampleAction1GetFileLinesOnRightClick extends BaseIntelligentAssistantAction {
 
   private final NotificationManager notificationManager;
   private final StringMapUnmarshaller unmarshaller;
@@ -87,11 +87,20 @@ public class SampleAction1GetFileLinesOnRightClick extends BaseAction {
             });
   }
 
-  public IntelligentResultPresenter getIntelligentPresenter() {
+  public BasePresenter getBasePresenter() {
     return this.sampleAction1Presenter;
   }
 
-  public BasePresenter getBasePresenter() {
+  @Override
+  public boolean isEnable() {
+    return false;
+  }
+
+  @Override
+  public void setEnable(boolean enable) {}
+
+  @Override
+  public PartPresenter getResultPresenter() {
     return this.sampleAction1Presenter;
   }
 }

@@ -2,27 +2,35 @@ package edu.tongji.sse.qyd.recommendersample.ide.action;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import edu.tongji.sse.qyd.recommendersample.ide.view.outputview1.SampleAction1Presenter;
-import java.util.Map;
+import com.google.web.bindery.event.shared.EventBus;
+import edu.tongji.sse.notifiercenter.ide.action.BaseIntelligentAssistantAction;
+import edu.tongji.sse.qyd.recommendersample.ide.view.outputview2.SampleAction2Presenter;
 import org.eclipse.che.ide.api.action.ActionEvent;
-import org.eclipse.che.ide.api.action.BaseAction;
 import org.eclipse.che.ide.api.app.AppContext;
+import org.eclipse.che.ide.api.editor.EditorAgent;
+import org.eclipse.che.ide.api.editor.document.DocumentEventBus;
+import org.eclipse.che.ide.api.editor.events.TextChangeEvent;
 import org.eclipse.che.ide.api.notification.NotificationManager;
-import org.eclipse.che.ide.api.notification.StatusNotification;
+import org.eclipse.che.ide.api.parts.PartPresenter;
+import org.eclipse.che.ide.api.parts.base.BasePresenter;
+import org.eclipse.che.ide.api.resources.ResourceChangedEvent;
 import org.eclipse.che.ide.console.OutputConsoleView;
-import org.eclipse.che.ide.rest.AsyncRequestCallback;
 import org.eclipse.che.ide.rest.AsyncRequestFactory;
 import org.eclipse.che.ide.rest.StringMapUnmarshaller;
 
 @Singleton
-public class SampleAction2GetWorkspaceOnQuestionMark extends BaseAction {
+public class SampleAction2GetWorkspaceOnQuestionMark extends BaseIntelligentAssistantAction {
 
   private final AppContext appContext;
   private final StringMapUnmarshaller unmarshaller;
   private final AsyncRequestFactory asyncRequestFactory;
   private final NotificationManager notificationManager;
   private final OutputConsoleView consoleView;
-  private final SampleAction1Presenter presenter;
+  private final SampleAction2Presenter sampleAction2Presenter;
+  private final EditorAgent editorAgent;
+
+  private final DocumentEventBus documentEventBus;
+  private final EventBus eventBus;
 
   /**
    * Constructor
@@ -37,7 +45,10 @@ public class SampleAction2GetWorkspaceOnQuestionMark extends BaseAction {
       AsyncRequestFactory asyncRequestFactory,
       NotificationManager notificationManager,
       OutputConsoleView consoleView,
-      SampleAction1Presenter presenter) {
+      EditorAgent editorAgent,
+      DocumentEventBus documentEventBus,
+      EventBus eventBus,
+      SampleAction2Presenter sampleAction2Presenter) {
 
     super("Analyzer From Current File", "try to call the wsagent to analyze");
 
@@ -46,47 +57,55 @@ public class SampleAction2GetWorkspaceOnQuestionMark extends BaseAction {
     this.notificationManager = notificationManager;
     this.unmarshaller = new StringMapUnmarshaller();
     this.consoleView = consoleView;
-    this.presenter = presenter;
+    this.sampleAction2Presenter = sampleAction2Presenter;
+    this.editorAgent = editorAgent;
+
+    this.documentEventBus = documentEventBus;
+    this.eventBus = eventBus;
+  }
+
+  private void addHandlerToEditor() {
+
+    this.eventBus.addHandler(
+        TextChangeEvent.TYPE,
+        event ->
+            this.sampleAction2Presenter.appendTextLine(
+                "[event bus - TextChangeEvent]" + event.getChange().getNewText()));
+    this.eventBus.addHandler(
+        ResourceChangedEvent.getType(),
+        event ->
+            this.sampleAction2Presenter.appendTextLine(
+                "[event bus - ResourceChangeEvent]" + event.getDelta().getResource().isFile()));
+    this.documentEventBus.addHandler(
+        TextChangeEvent.TYPE,
+        event ->
+            this.sampleAction2Presenter.appendTextLine(
+                "[document event bus - TextChangeEvent]" + event.getChange().getNewText()));
+    this.documentEventBus.addHandler(
+        ResourceChangedEvent.getType(),
+        event ->
+            this.sampleAction2Presenter.appendTextLine(
+                "[document event bus - ResourceChangeEvent]"
+                    + event.getDelta().getResource().isFile()));
+  }
+
+  public BasePresenter getBasePresenter() {
+    return this.sampleAction2Presenter;
   }
 
   @Override
-  public void actionPerformed(ActionEvent e) {
-    String url =
-        appContext.getWsAgentServerApiEndpoint()
-            + "/getFile/"
-            + appContext.getWorkspaceId()
-            + "/"
-            + appContext.getRootProject().getLocation();
-    asyncRequestFactory
-        .createGetRequest(url, false)
-        .send(
-            new AsyncRequestCallback<Map<String, String>>(unmarshaller) {
-              @Override
-              protected void onSuccess(Map<String, String> result) {
-                notificationManager.notify(
-                    "SampleAction2GetWorkspaceOnQuestionMark Success",
-                    StatusNotification.Status.SUCCESS,
-                    StatusNotification.DisplayMode.FLOAT_MODE);
-                for (String key : result.keySet()) {
-                  String newline = key + " : " + result.get(key);
-                  consoleView.print(newline, false);
-                }
-              }
+  public void actionPerformed(ActionEvent e) {}
 
-              @Override
-              protected void onFailure(Throwable exception) {
-                presenter.appendTextLine(exception.getMessage());
-                StringBuilder sbForStaceTrace = new StringBuilder();
-                for (StackTraceElement element : exception.getStackTrace()) {
-                  sbForStaceTrace.append(element.toString());
-                  sbForStaceTrace.append(";;");
-                }
-                presenter.appendTextLine(sbForStaceTrace.toString());
-                notificationManager.notify(
-                    "SampleAction2GetWorkspaceOnQuestionMark Fail",
-                    StatusNotification.Status.FAIL,
-                    StatusNotification.DisplayMode.FLOAT_MODE);
-              }
-            });
+  @Override
+  public boolean isEnable() {
+    return false;
+  }
+
+  @Override
+  public void setEnable(boolean enable) {}
+
+  @Override
+  public PartPresenter getResultPresenter() {
+    return this.sampleAction2Presenter;
   }
 }

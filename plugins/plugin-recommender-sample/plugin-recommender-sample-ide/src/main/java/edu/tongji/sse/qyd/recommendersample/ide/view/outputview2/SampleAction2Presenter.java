@@ -4,9 +4,6 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import edu.tongji.sse.notifiercenter.ide.config.EditorContextBean;
-import edu.tongji.sse.notifiercenter.ide.config.FetchContextConfigBean;
-import edu.tongji.sse.notifiercenter.ide.interfaces.IntelligentResultPresenter;
 import edu.tongji.sse.qyd.recommendersample.ide.QydSampleResources;
 import edu.tongji.sse.qyd.recommendersample.ide.view.outputview1.SampleAction1View;
 import org.eclipse.che.ide.api.parts.base.BasePresenter;
@@ -14,7 +11,7 @@ import org.vectomatic.dom.svg.ui.SVGResource;
 
 @Singleton
 public class SampleAction2Presenter extends BasePresenter
-    implements SampleAction1View.ActionDelegate, IntelligentResultPresenter {
+    implements SampleAction1View.ActionDelegate {
 
   private SampleAction1View view;
 
@@ -63,21 +60,6 @@ public class SampleAction2Presenter extends BasePresenter
   }
 
   public void showView() {
-    view.setVisible(true);
-  }
-
-  @Override
-  public FetchContextConfigBean getFetchContextConfigBean() {
-    return null;
-  }
-
-  @Override
-  public boolean isTimeToShowPart(EditorContextBean editorContextBean) {
-    return true;
-  }
-
-  @Override
-  public void showResult() {
     view.setVisible(true);
   }
 
