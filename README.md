@@ -2,26 +2,16 @@
 
 ## Build
 
-You can build this sample using command `mvn clean install`, as well as using Docker Image `eclipse/che-dev:nightly` to build  
+version 6.16.0
 
-Description of mounting volumes 
-- `/home/user/.m2` - use this to mount your local Maven repository
-- `/projects` - mount for the sample directory
-
-Example of running this command
-`docker run -ti -v ~/.m2:/home/user/.m2 -v /home/user/che-ide-server-extension/:/projects eclipse/che-dev:nightly sh -c "mvn clean install"`
-
-Note, that building the module with GWT compilation may fail, if there would not be enough memory.
-**Make sure that your Docker container can use at least 3GB of RAM.**
+cd to the project folder
+`mvn clean install`
 
 # Run
 
 Run this sample by mounting assembly to your Che Docker image:
 
-Description of mounted volumes:
-- `/var/run/docker.sock` - docker socket, required by Che for launching workspaces
-- `/data` - path to Che data files on host system(logs, configuration)
-- `/assembly` - path to your Che assembly-main files location (note that it has to point to the unwrapped Che files in `target/<eclipse-che-version>/<eclipse-che-version>` of assembly-main)
+`docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock -v {data_folder}:/data -v {project_absolute_path}/assembly/assembly-main/target/eclipse-che-6.16.0/eclipse-che-6.16.0:/assembly -v /root/.m2:/home/user/.m2 eclipse/che:6.16.0 start`
 
 Example of running this command
-`docker run -it --rm -v /home/user/che-data/:/data -v /home/user/che-samples/che-ide-server-extension/assembly/assembly-main/target/eclipse-che-6.13.0/eclipse-che-6.13.0:/assembly -v /var/run/docker.sock:/var/run/docker.sock eclipse/che:nightly start --skip:scripts`
+`docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock -v /root/che.data.16:/data -v /root/qyd-ide-server-extension/assembly/assembly-main/target/eclipse-che-6.16.0/eclipse-che-6.16.0:/assembly -v /root/.m2:/home/user/.m2 eclipse/che:6.16.0 start`
