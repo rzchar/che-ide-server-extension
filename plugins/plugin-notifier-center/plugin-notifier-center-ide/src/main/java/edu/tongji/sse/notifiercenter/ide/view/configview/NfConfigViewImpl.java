@@ -7,7 +7,9 @@ import com.google.gwt.user.client.ui.*;
 import com.google.inject.Inject;
 import edu.tongji.sse.notifiercenter.ide.interfaces.IntelligentConfigPresenter;
 import edu.tongji.sse.notifiercenter.ide.manager.IntelligentPluginManager;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.eclipse.che.ide.ui.window.Window;
 
@@ -22,7 +24,7 @@ public class NfConfigViewImpl extends Window implements NfConfigView {
 
   private IntelligentPluginManager intelligentPluginManager;
 
-  private Map<String, Boolean> availability;
+  private List<CheckBox> checkBoxList;
 
   @UiField ScrollPanel configPanel;
 
@@ -30,9 +32,9 @@ public class NfConfigViewImpl extends Window implements NfConfigView {
   public NfConfigViewImpl(IntelligentPluginManager intelligentPluginManager) {
     rootElement = UI_BINDER.createAndBindUi(this);
     this.intelligentPluginManager = intelligentPluginManager;
-    setWidget(rootElement);
     addFooterButton("Save", "intelligent-config-save", clickEvent -> this.saveChange());
     addFooterButton("Cancel", "intelligent-config-cancel", clickEvent -> this.cancelChange());
+    setWidget(rootElement);
   }
 
   @Override
@@ -47,35 +49,43 @@ public class NfConfigViewImpl extends Window implements NfConfigView {
 
   @Override
   public void showDialog() {
-    availability = new HashMap<>();
-    configPanel.getElement().removeAllChildren();
+    checkBoxList = new ArrayList<>();
+
     for (String pluginName : intelligentPluginManager.getRegisteredPlugins()) {
       FlowPanel flowPanel = new FlowPanel();
       CheckBox checkBox = new CheckBox();
       checkBox.setText(pluginName);
       checkBox.setValue(intelligentPluginManager.isPluginEnabled(pluginName));
-      availability.put(pluginName, intelligentPluginManager.isPluginEnabled(pluginName));
-      checkBox.addClickHandler(
-          clickEvent -> {
-            CheckBox cb = (CheckBox) clickEvent.getSource();
-            availability.put(cb.getText(), cb.getValue());
-          });
 
-      flowPanel.getElement().appendChild(checkBox.getElement());
+      checkBoxList.add(checkBox);
+      flowPanel.add(checkBox);
+
+      // flowPanel.getElement().appendChild(checkBox.getElement());
       IntelligentConfigPresenter icp = intelligentPluginManager.getCongfigPresenter(pluginName);
       if (icp != null) {
         Button button = new Button();
         button.addClickHandler(clickEvent -> icp.showConfigWindow());
         flowPanel.getElement().appendChild(button.getElement());
       }
-      configPanel.getElement().appendChild(flowPanel.getElement());
+      configPanel.add(flowPanel);
+      // configPanel.getElement().appendChild(flowPanel.getElement());
     }
-
+    this.setWidget(rootElement);
     this.show();
   }
 
   @Override
+  public void onHide() {
+    this.configPanel.clear();
+    this.setWidget(rootElement);
+  }
+
+  @Override
   public void saveChange() {
+    Map<String, Boolean> availability = new HashMap<>();
+    for (CheckBox checkBox : checkBoxList) {
+      availability.put(checkBox.getText(), checkBox.getValue());
+    }
     intelligentPluginManager.savePluginAvailability(availability);
   }
 
