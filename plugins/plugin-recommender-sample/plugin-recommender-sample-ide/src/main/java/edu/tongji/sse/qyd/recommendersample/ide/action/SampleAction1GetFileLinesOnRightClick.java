@@ -63,28 +63,30 @@ public class SampleAction1GetFileLinesOnRightClick extends BaseIntelligentAssist
             + "/getFileLines/"
             + appContext.getWorkspaceId()
             + appContext.getRootProject().getLocation();
-    this.sampleAction1Presenter.appendTextLine("triggered by right click");
-    this.sampleAction1Presenter.appendTextLine("currentFileName=" + fileName);
-    this.sampleAction1Presenter.appendTextLine("workspace=" + appContext.getWorkspaceId());
-    this.sampleAction1Presenter.appendTextLine(
-        "rootProject=" + appContext.getRootProject().getLocation());
-    this.sampleAction1Presenter.appendTextLine("url=" + url);
+    this.logInConsole("triggered by right click");
+    this.logInConsole("currentFileName=" + fileName);
+    this.logInConsole("workspace=" + appContext.getWorkspaceId());
+    this.logInConsole("rootProject=" + appContext.getRootProject().getLocation());
+    this.logInConsole("url=" + url);
     asyncRequestFactory
         .createGetRequest(url)
         .send(this.unmarshaller)
         .then(
             fileLinesMap -> {
-              this.sampleAction1Presenter.appendTextLine("[sample 1 server succeed]");
+              this.logInConsole("[sample 1 server succeed]");
               for (String respondFileName : fileLinesMap.keySet()) {
-                this.sampleAction1Presenter.appendTextLine(
+                this.logInConsole(
                     "   " + respondFileName + " : " + fileLinesMap.get(respondFileName));
               }
             })
         .catchError(
             error -> {
-              this.sampleAction1Presenter.appendTextLine(
-                  "[sample 1 server error]" + error.getMessage());
+              this.logInConsole("[sample 1 server error]" + error.getMessage());
             });
+  }
+
+  private void logInConsole(String s) {
+    this.sampleAction1Presenter.appendTextLine("[sample1]" + s);
   }
 
   public BasePresenter getBasePresenter() {

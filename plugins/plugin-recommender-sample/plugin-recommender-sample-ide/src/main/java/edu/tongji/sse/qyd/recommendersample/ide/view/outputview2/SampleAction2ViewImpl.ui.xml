@@ -36,27 +36,19 @@
         .consoleLines {
             width: 100%;
         }
-
-        .consoleLines > pre {
-            width: inherit;
-            padding: 0;
-            margin: 0;
-        }
-
-        .consoleLines[wrap] > pre {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
     </ui:style>
     <g:DockLayoutPanel  unit="PX" width="100%" height="100%">
         <g:north size="20">
-            <g:Label text="Analyzer Label" />
+            <g:FlowPanel>
+                <g:Label text="Another Label" />
+                <g:Button>A button</g:Button>
+            </g:FlowPanel>
         </g:north>
         <g:center>
-            <g:ScrollPanel ui:field="scrollPanel" debugId="scrollPanel" styleName="{style.console} {style.consolePanel}">
-                <g:FlowPanel ui:field="resultTextLines" debugId="commandConsoleLines" styleName="{style.consoleLines}">
+            <g:ScrollPanel ui:field="resultScrollPanel" debugId="resultScrollPanel" styleName="{style.console} {style.consolePanel}">
+                <g:VerticalPanel ui:field="resultList" debugId="resultList" styleName="{style.consoleLines}">
 
-                </g:FlowPanel>
+                </g:VerticalPanel>
             </g:ScrollPanel>
         </g:center>
     </g:DockLayoutPanel>

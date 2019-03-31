@@ -9,6 +9,7 @@
 package edu.tongji.sse.qyd.recommendersample.server.inject;
 
 import com.google.inject.AbstractModule;
+import edu.tongji.sse.qyd.recommendersample.server.service.GetFileService;
 import edu.tongji.sse.qyd.recommendersample.server.service.GetRecommendationService;
 import org.eclipse.che.inject.DynaModule;
 
@@ -18,6 +19,8 @@ public class ServerServiceGuiceModule extends AbstractModule {
 
   @Override
   protected void configure() {
+
+    bind(GetFileService.class);
     bind(GetRecommendationService.class);
   }
 }

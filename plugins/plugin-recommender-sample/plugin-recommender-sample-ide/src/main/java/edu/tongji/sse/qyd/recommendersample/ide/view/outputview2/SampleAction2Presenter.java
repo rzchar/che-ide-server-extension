@@ -6,22 +6,29 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import edu.tongji.sse.qyd.recommendersample.ide.QydSampleResources;
 import edu.tongji.sse.qyd.recommendersample.ide.view.outputview1.SampleAction1View;
+import java.util.List;
+import org.eclipse.che.ide.api.editor.text.TextPosition;
+import org.eclipse.che.ide.api.editor.texteditor.TextEditor;
 import org.eclipse.che.ide.api.parts.base.BasePresenter;
 import org.vectomatic.dom.svg.ui.SVGResource;
 
 @Singleton
 public class SampleAction2Presenter extends BasePresenter
-    implements SampleAction1View.ActionDelegate {
+    implements SampleAction2View.ActionDelegate {
 
-  private SampleAction1View view;
+  private SampleAction1View view1;
+
+  private SampleAction2View view2;
 
   private QydSampleResources resources;
 
   @Inject
-  public SampleAction2Presenter(SampleAction1View view, QydSampleResources resources) {
-    this.view = view;
+  public SampleAction2Presenter(
+      SampleAction1View view1, SampleAction2View view2, QydSampleResources resources) {
+    this.view1 = view1;
+    this.view2 = view2;
     this.resources = resources;
-    view.setDelegate(this);
+    view2.setDelegate(this);
   }
 
   @Override
@@ -31,7 +38,7 @@ public class SampleAction2Presenter extends BasePresenter
 
   @Override
   public IsWidget getView() {
-    return view;
+    return view2;
   }
 
   @Override
@@ -41,30 +48,24 @@ public class SampleAction2Presenter extends BasePresenter
 
   @Override
   public void go(AcceptsOneWidget container) {
-    container.setWidget(view);
+    container.setWidget(view2);
   }
 
-  @Override
-  public String getText() {
-    return view.getText();
-  }
-
-  @Override
-  public void setText(String text) {
-    view.setText(text);
-  }
-
-  @Override
   public void appendTextLine(String text) {
-    view.appendTextLine(text);
+    view1.appendTextLine(text);
   }
 
   public void showView() {
-    view.setVisible(true);
+    view2.setVisible(true);
   }
 
   @Override
   public SVGResource getTitleImage() {
     return resources.getSample2Icon();
+  }
+
+  @Override
+  public void showResult(TextEditor textEditor, TextPosition position, List<String> candidates) {
+    this.view2.showResult(textEditor, position, candidates);
   }
 }

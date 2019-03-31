@@ -44,16 +44,6 @@ public class SampleAction1Presenter extends BasePresenter
   }
 
   @Override
-  public String getText() {
-    return view.getText();
-  }
-
-  @Override
-  public void setText(String text) {
-    view.setText(text);
-  }
-
-  @Override
   public void appendTextLine(String text) {
     view.appendTextLine(text);
   }

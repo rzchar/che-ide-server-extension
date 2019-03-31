@@ -54,7 +54,7 @@
         </g:north>
         <g:center>
             <g:FlowPanel styleName="{style.consolePanel}">
-                <g:ScrollPanel ui:field="nfCenterLogPanel" debugId="nfCenterLogPanel" styleName="{style.console}">
+                <g:ScrollPanel ui:field="scrollPanel" debugId="scrollPanel" styleName="{style.console}">
                     <g:FlowPanel width="100%" ui:field="nfCenterTextLines" debugId="nfCenterTextLines" styleName="{style.consoleLines}"/>
                 </g:ScrollPanel>
             </g:FlowPanel>

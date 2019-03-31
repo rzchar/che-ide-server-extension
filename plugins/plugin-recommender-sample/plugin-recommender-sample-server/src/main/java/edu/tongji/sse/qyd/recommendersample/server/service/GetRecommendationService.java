@@ -1,53 +1,30 @@
 package edu.tongji.sse.qyd.recommendersample.server.service;
 
-import java.util.LinkedHashMap;
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import org.eclipse.che.api.core.ConflictException;
-import org.eclipse.che.api.core.NotFoundException;
-import org.eclipse.che.api.core.ServerException;
-import org.eclipse.che.api.fs.server.FsManager;
-import org.eclipse.che.api.fs.server.WsPathUtils;
+import javax.ws.rs.*;
+import org.json.JSONObject;
 
-@Path("getFileLines/{ws-id}")
+@Path("sample2Recommendation/")
 public class GetRecommendationService {
-  private FsManager fsManager;
 
-  @Inject
-  public GetRecommendationService(FsManager fsManager) {
-    this.fsManager = fsManager;
-  }
+  private static String EXAMPLE_REQUEST = "example_request";
 
-  private int countLines(String wsPath)
-      throws ServerException, NotFoundException, ConflictException {
-    String content = fsManager.readAsString(wsPath);
-    String[] lines = content.split("\r\n|\r|\n");
-    return lines.length;
-  }
-
-  private void getFileLinesRecursivly(String path, Map<String, String> linesPerFile)
-      throws ServerException, NotFoundException, ConflictException {
-    Set<String> fileWsPaths = fsManager.getFileWsPaths(path);
-    for (String fileWsPath : fileWsPaths) {
-      linesPerFile.put(fileWsPath, Integer.toString(countLines(fileWsPath)));
-    }
-    Set<String> dirWsPaths = fsManager.getDirWsPaths(path);
-    for (String dirWsPath : dirWsPaths) {
-      getFileLinesRecursivly(dirWsPath, linesPerFile);
-    }
-  }
+  private static String PRE_TEST = "pre_test";
 
   @GET
-  @Path("{projectPath}")
-  public Map<String, String> countLinesPerFile(@PathParam("projectPath") String projectPath)
-      throws ServerException, NotFoundException, ConflictException {
-    String projectWsPath = WsPathUtils.absolutize(projectPath);
-    Map<String, String> linesPerFile = new LinkedHashMap<>();
-    getFileLinesRecursivly(projectWsPath, linesPerFile);
-    return linesPerFile;
+  @Path("{code_context}")
+  @Produces(APPLICATION_JSON)
+  public Map<String, String> getRecommendition(@PathParam("code_context") String request) {
+    JSONObject jojo = new JSONObject();
+    jojo.put("ora", "muda");
+    Map<String, String> result = new HashMap<>();
+    for (int i = 0; i < 3; i++) {
+      result.put("result" + i, request);
+    }
+    result.put("jojo", jojo.toString());
+    return result;
   }
 }

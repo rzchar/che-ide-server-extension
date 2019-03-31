@@ -65,14 +65,12 @@ public class IntelligentPluginManagerImpl implements IntelligentPluginManager {
   public void registerPlugin(
       String name, BaseIntelligentAssistantAction baseIntelligentAssistantAction) {
     this.intelligentAssistantActionMap.put(name, baseIntelligentAssistantAction);
-    if (!pluginAvailabilities.containsKey(name)) {
-      pluginAvailabilities.put(name, Boolean.FALSE);
+    if (this.isPluginEnabled(name)) {
+      workspaceAgent.openPart(
+          baseIntelligentAssistantAction.getResultPresenter(),
+          baseIntelligentAssistantAction.getResultPresenterPartStack());
     } else {
-      if (this.isPluginEnabled(name)) {
-        workspaceAgent.openPart(
-            baseIntelligentAssistantAction.getResultPresenter(),
-            baseIntelligentAssistantAction.getResultPresenterPartStack());
-      }
+      pluginAvailabilities.put(name, Boolean.FALSE);
     }
     if (baseIntelligentAssistantAction.getConfigWindow() != null) {
       intelligentConfigWindowMap.put(name, baseIntelligentAssistantAction.getConfigWindow());
@@ -115,20 +113,8 @@ public class IntelligentPluginManagerImpl implements IntelligentPluginManager {
     }
 
     for (String pluginName : availabilityMap.keySet()) {
-      boolean currentStatus = availabilityMap.get(pluginName);
-      boolean previousStatus = this.isPluginEnabled(pluginName);
-      if (currentStatus != previousStatus) {
-        BaseIntelligentAssistantAction biaa = this.intelligentAssistantActionMap.get(pluginName);
-        if (biaa != null) {
-          if (currentStatus) {
-            workspaceAgent.openPart(biaa.getResultPresenter(), biaa.getResultPresenterPartStack());
-          } else {
-            workspaceAgent.removePart(biaa.getResultPresenter());
-          }
-        }
-      }
-      this.pluginAvailabilities.put(pluginName, currentStatus);
-      availabilitySS.put(pluginName, String.valueOf(currentStatus));
+      this.setPluginEnable(pluginName, availabilityMap.get(pluginName));
+      availabilitySS.put(pluginName, availabilityMap.get(pluginName).toString());
     }
     String data = JsonHelper.toJson(availabilitySS);
 
@@ -164,7 +150,7 @@ public class IntelligentPluginManagerImpl implements IntelligentPluginManager {
     this.pluginAvailabilities = new HashMap<>();
     String url = appContext.getWsAgentServerApiEndpoint() + "/" + AVAILABILITY_PATH;
 
-    logOnPresenter("url=" + url);
+    logOnPresenter("[try get]url=" + url);
 
     this.asyncRequestFactory
         .createGetRequest(url)
@@ -176,13 +162,28 @@ public class IntelligentPluginManagerImpl implements IntelligentPluginManager {
               for (String str : availability.keySet()) {
                 boolean b = availability.get(str).equalsIgnoreCase("true");
                 logOnPresenter("[get return from backend]" + str + " : " + b);
-                this.pluginAvailabilities.put(str, b);
+                setPluginEnable(str, b);
               }
             })
         .catchError(
             error -> {
               logOnPresenter("[get error]" + error.getMessage());
             });
+  }
+
+  private void setPluginEnable(String pluginName, boolean enable) {
+    boolean previous = this.isPluginEnabled(pluginName);
+    if (this.intelligentAssistantActionMap.containsKey(pluginName) && enable != previous) {
+      BaseIntelligentAssistantAction biaa = this.intelligentAssistantActionMap.get(pluginName);
+      if (biaa != null) {
+        if (enable) {
+          workspaceAgent.openPart(biaa.getResultPresenter(), biaa.getResultPresenterPartStack());
+        } else {
+          workspaceAgent.removePart(biaa.getResultPresenter());
+        }
+      }
+    }
+    this.pluginAvailabilities.put(pluginName, enable);
   }
 
   @Override

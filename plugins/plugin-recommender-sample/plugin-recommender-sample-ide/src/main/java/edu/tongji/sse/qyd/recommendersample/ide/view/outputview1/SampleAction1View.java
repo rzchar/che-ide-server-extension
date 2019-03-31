@@ -9,17 +9,9 @@ public interface SampleAction1View extends View<SampleAction1View.ActionDelegate
 
   void setVisible(boolean visible);
 
-  String getText();
-
-  void setText(String text);
-
   void appendTextLine(String text);
 
   interface ActionDelegate extends BaseActionDelegate {
-
-    String getText();
-
-    void setText(String text);
 
     void appendTextLine(String text);
   }
