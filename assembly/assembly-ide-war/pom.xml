@@ -40,8 +40,8 @@
             <type>gwt-lib</type>
         </dependency>
         <dependency>
-            <artifactId>plugin-notifier-center-ide</artifactId>
-            <groupId>edu.tongji.sse.notifiercenter</groupId>
+            <artifactId>plugin-intelligent-management-center-ide</artifactId>
+            <groupId>edu.tongji.sse.intelligentmanagementcenter</groupId>
             <type>gwt-lib</type>
         </dependency>
         <dependency>

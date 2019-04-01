@@ -9,7 +9,7 @@
 package edu.tongji.sse.qyd.recommendersample.ide.action;
 
 import com.google.inject.Inject;
-import edu.tongji.sse.notifiercenter.ide.action.BaseIntelligentAssistantAction;
+import edu.tongji.sse.intelligentmanagementcenter.ide.action.BaseIntelligentAssistantAction;
 import edu.tongji.sse.qyd.recommendersample.ide.view.outputview1.SampleAction1Presenter;
 import org.eclipse.che.ide.api.action.ActionEvent;
 import org.eclipse.che.ide.api.app.AppContext;

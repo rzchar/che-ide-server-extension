@@ -9,7 +9,7 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
-import edu.tongji.sse.notifiercenter.ide.action.BaseIntelligentAssistantAction;
+import edu.tongji.sse.intelligentmanagementcenter.ide.action.BaseIntelligentAssistantAction;
 import edu.tongji.sse.qyd.recommendersample.ide.view.outputview1.SampleAction1Presenter;
 import edu.tongji.sse.qyd.recommendersample.ide.view.outputview2.SampleAction2Presenter;
 import java.util.ArrayList;

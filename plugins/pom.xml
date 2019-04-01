@@ -22,6 +22,6 @@
     <name>Project 5 Che :: Plugins ::  Parent</name>
     <modules>
         <module>plugin-recommender-sample</module>
-        <module>plugin-notifier-center</module>
+        <module>plugin-intelligent-management-center</module>
     </modules>
 </project>

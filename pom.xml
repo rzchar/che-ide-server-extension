@@ -52,14 +52,14 @@
                 <type>war</type>
             </dependency>
             <dependency>
-                <artifactId>plugin-notifier-center-ide</artifactId>
-                <groupId>edu.tongji.sse.notifiercenter</groupId>
+                <artifactId>plugin-intelligent-management-center-ide</artifactId>
+                <groupId>edu.tongji.sse.intelligentmanagementcenter</groupId>
                 <version>0.0.1</version>
                 <type>gwt-lib</type>
             </dependency>
             <dependency>
-                <artifactId>plugin-notifier-center-ide</artifactId>
-                <groupId>edu.tongji.sse.notifiercenter</groupId>
+                <artifactId>plugin-intelligent-management-center-ide</artifactId>
+                <groupId>edu.tongji.sse.intelligentmanagementcenter</groupId>
                 <version>0.0.1</version>
             </dependency>
             <dependency>
@@ -74,9 +74,15 @@
                 <version>0.0.1</version>
             </dependency>
             <dependency>
-                <groupId>edu.tongji.sse.notifiercenter</groupId>
-                <artifactId>plugin-notifier-center-server</artifactId>
+                <groupId>edu.tongji.sse.intelligentmanagementcenter</groupId>
+                <artifactId>plugin-intelligent-management-center-server</artifactId>
                 <version>0.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>edu.tongji.sse.intelligentmanagementcenter</groupId>
+                <artifactId>plugin-intelligent-management-center-server</artifactId>
+                <version>0.0.1</version>
+                <type>jar</type>
             </dependency>
             <dependency>
                 <groupId>edu.tongji.sse.qyd</groupId>

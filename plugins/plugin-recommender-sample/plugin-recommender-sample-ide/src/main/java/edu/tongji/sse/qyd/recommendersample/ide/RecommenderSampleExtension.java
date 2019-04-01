@@ -9,7 +9,7 @@
 package edu.tongji.sse.qyd.recommendersample.ide;
 
 import com.google.inject.Inject;
-import edu.tongji.sse.notifiercenter.ide.manager.IntelligentPluginManager;
+import edu.tongji.sse.intelligentmanagementcenter.ide.manager.IntelligentPluginManager;
 import edu.tongji.sse.qyd.recommendersample.ide.action.SampleAction1GetFileLinesOnRightClick;
 import edu.tongji.sse.qyd.recommendersample.ide.action.SampleAction2GetWorkspaceOnQuestionMark;
 import org.eclipse.che.ide.api.action.ActionManager;
