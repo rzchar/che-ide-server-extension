@@ -48,9 +48,9 @@ public class RecommenderSampleExtension {
     this.prepareSampleAction1(sampleAction1GetFileLinesOnRightClick);
     this.prepareSampleAction2(sampleAction2GetWorkspaceOnQuestionMark);
     intelligentPluginManager.registerPlugin(
-        "Sample Action 1", sampleAction1GetFileLinesOnRightClick);
+        "Record Productivity", sampleAction1GetFileLinesOnRightClick);
     intelligentPluginManager.registerPlugin(
-        "Sample Action 2", sampleAction2GetWorkspaceOnQuestionMark);
+        "Intelligent Code Recommend", sampleAction2GetWorkspaceOnQuestionMark);
 
     // mouseRightClickGroup.add(sampleAction2, Constraints.LAST);
   }

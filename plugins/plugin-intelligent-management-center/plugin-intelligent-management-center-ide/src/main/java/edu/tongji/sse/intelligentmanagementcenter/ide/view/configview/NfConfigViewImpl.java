@@ -54,16 +54,19 @@ public class NfConfigViewImpl extends Window implements NfConfigView {
     for (String pluginName : intelligentPluginManager.getRegisteredPlugins()) {
       logOnScreen("start to render " + pluginName);
       FlowPanel flowPanel = new FlowPanel();
+      SimpleRadioButton radioButton = new SimpleRadioButton("");
       CheckBox checkBox = new CheckBox();
       checkBox.setText(pluginName);
       checkBox.setValue(intelligentPluginManager.isPluginEnabled(pluginName));
       checkBoxList.add(checkBox);
+      flowPanel.add(radioButton);
       flowPanel.add(checkBox);
 
       logOnScreen("check box set completed");
       Window icp = intelligentPluginManager.getCongfigPresenter(pluginName);
       if (icp != null) {
         Button button = new Button();
+        button.setText("Detail");
         button.addClickHandler(clickEvent -> icp.show());
         flowPanel.getElement().appendChild(button.getElement());
       }

@@ -5,7 +5,7 @@ import static org.eclipse.che.ide.rest.HTTPHeader.CONTENT_TYPE;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import edu.tongji.sse.intelligentmanagementcenter.ide.action.BaseIntelligentAssistantAction;
+import edu.tongji.sse.intelligentmanagementcenter.ide.action.AbstractIntelligentPluginAction;
 import edu.tongji.sse.intelligentmanagementcenter.ide.view.infoview.NfCenterInfoPresenter;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +22,7 @@ import org.eclipse.che.ide.ui.window.Window;
 @Singleton
 public class IntelligentPluginManagerImpl implements IntelligentPluginManager {
 
-  private Map<String, BaseIntelligentAssistantAction> intelligentAssistantActionMap;
+  private Map<String, AbstractIntelligentPluginAction> intelligentAssistantActionMap;
 
   private Map<String, Window> intelligentConfigWindowMap;
 
@@ -63,17 +63,17 @@ public class IntelligentPluginManagerImpl implements IntelligentPluginManager {
 
   @Override
   public void registerPlugin(
-      String name, BaseIntelligentAssistantAction baseIntelligentAssistantAction) {
-    this.intelligentAssistantActionMap.put(name, baseIntelligentAssistantAction);
+      String name, AbstractIntelligentPluginAction abstractIntelligentPluginAction) {
+    this.intelligentAssistantActionMap.put(name, abstractIntelligentPluginAction);
     if (this.isPluginEnabled(name)) {
       workspaceAgent.openPart(
-          baseIntelligentAssistantAction.getResultPresenter(),
-          baseIntelligentAssistantAction.getResultPresenterPartStack());
+          abstractIntelligentPluginAction.getResultPresenter(),
+          abstractIntelligentPluginAction.getResultPresenterPartStack());
     } else {
       pluginAvailabilities.put(name, Boolean.FALSE);
     }
-    if (baseIntelligentAssistantAction.getConfigWindow() != null) {
-      intelligentConfigWindowMap.put(name, baseIntelligentAssistantAction.getConfigWindow());
+    if (abstractIntelligentPluginAction.getConfigWindow() != null) {
+      intelligentConfigWindowMap.put(name, abstractIntelligentPluginAction.getConfigWindow());
     }
     this.logOnPresenter("[plugin register]" + name + "|show=" + this.isPluginEnabled(name));
   }
@@ -174,7 +174,7 @@ public class IntelligentPluginManagerImpl implements IntelligentPluginManager {
   private void setPluginEnable(String pluginName, boolean enable) {
     boolean previous = this.isPluginEnabled(pluginName);
     if (this.intelligentAssistantActionMap.containsKey(pluginName) && enable != previous) {
-      BaseIntelligentAssistantAction biaa = this.intelligentAssistantActionMap.get(pluginName);
+      AbstractIntelligentPluginAction biaa = this.intelligentAssistantActionMap.get(pluginName);
       if (biaa != null) {
         if (enable) {
           workspaceAgent.openPart(biaa.getResultPresenter(), biaa.getResultPresenterPartStack());
@@ -193,7 +193,7 @@ public class IntelligentPluginManagerImpl implements IntelligentPluginManager {
 
   //  public void refreshPlugins(){
   //    for (String pluginName        : this.intelligentAssistantActionMap.keySet()){
-  //      BaseIntelligentAssistantAction baseIntelligentAssistantAction =
+  //      AbstractIntelligentPluginAction baseIntelligentAssistantAction =
   //          this.intelligentAssistantActionMap.get(pluginName);
   //
   //    }

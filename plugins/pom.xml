@@ -23,5 +23,6 @@
     <modules>
         <module>plugin-recommender-sample</module>
         <module>plugin-intelligent-management-center</module>
+        <module>plugin-productivity</module>
     </modules>
 </project>

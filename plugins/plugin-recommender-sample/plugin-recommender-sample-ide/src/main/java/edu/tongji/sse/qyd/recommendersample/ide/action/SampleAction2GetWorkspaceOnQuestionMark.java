@@ -9,18 +9,23 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
-import edu.tongji.sse.intelligentmanagementcenter.ide.action.BaseIntelligentAssistantAction;
+import edu.tongji.sse.intelligentmanagementcenter.ide.action.AbstractIntelligentPluginAction;
+import edu.tongji.sse.qyd.recommendersample.ide.view.configwindow.ConfigWindowViewImpl;
 import edu.tongji.sse.qyd.recommendersample.ide.view.outputview1.SampleAction1Presenter;
 import edu.tongji.sse.qyd.recommendersample.ide.view.outputview2.SampleAction2Presenter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.eclipse.che.ide.actions.EditFileAction;
 import org.eclipse.che.ide.api.action.ActionEvent;
 import org.eclipse.che.ide.api.app.AppContext;
 import org.eclipse.che.ide.api.editor.EditorAgent;
 import org.eclipse.che.ide.api.editor.EditorOpenedEvent;
+import org.eclipse.che.ide.api.editor.EditorPartPresenter;
 import org.eclipse.che.ide.api.editor.document.Document;
-import org.eclipse.che.ide.api.editor.events.EditorDirtyStateChangedEvent;
+import org.eclipse.che.ide.api.editor.document.DocumentEventBus;
+import org.eclipse.che.ide.api.editor.events.DocumentChangedEvent;
 import org.eclipse.che.ide.api.editor.text.TextPosition;
 import org.eclipse.che.ide.api.editor.texteditor.TextEditor;
 import org.eclipse.che.ide.api.notification.NotificationManager;
@@ -28,9 +33,10 @@ import org.eclipse.che.ide.api.parts.PartPresenter;
 import org.eclipse.che.ide.console.OutputConsoleView;
 import org.eclipse.che.ide.rest.AsyncRequestFactory;
 import org.eclipse.che.ide.rest.StringMapUnmarshaller;
+import org.eclipse.che.ide.ui.window.Window;
 
 @Singleton
-public class SampleAction2GetWorkspaceOnQuestionMark extends BaseIntelligentAssistantAction {
+public class SampleAction2GetWorkspaceOnQuestionMark extends AbstractIntelligentPluginAction {
 
   private final AppContext appContext;
   private final StringMapUnmarshaller unmarshaller;
@@ -41,7 +47,9 @@ public class SampleAction2GetWorkspaceOnQuestionMark extends BaseIntelligentAssi
   private final SampleAction2Presenter sampleAction2Presenter;
   private final EventBus eventBus;
   private final EditorAgent editorAgent;
-
+  private final ConfigWindowViewImpl configWindowViewImpl;
+  // private final Map<String,List<DocumentChangedEvent>> inputCaches;
+  private final Map<String, String> inputCaches;
   /**
    * Constructor
    *
@@ -58,7 +66,8 @@ public class SampleAction2GetWorkspaceOnQuestionMark extends BaseIntelligentAssi
       EventBus eventBus,
       EditorAgent editorAgent,
       SampleAction1Presenter sampleAction1Presenter,
-      SampleAction2Presenter sampleAction2Presenter) {
+      SampleAction2Presenter sampleAction2Presenter,
+      ConfigWindowViewImpl configWindowViewImpl) {
 
     super("Analyzer From Current File", "try to call the wsagent to analyze");
 
@@ -74,6 +83,8 @@ public class SampleAction2GetWorkspaceOnQuestionMark extends BaseIntelligentAssi
     this.addHandlerToEditor();
     this.tryGet();
     this.logInConsole("sample init complete");
+    this.configWindowViewImpl = configWindowViewImpl;
+    this.inputCaches = new HashMap<>();
   }
 
   private void addHandlerToEditor() {
@@ -84,22 +95,56 @@ public class SampleAction2GetWorkspaceOnQuestionMark extends BaseIntelligentAssi
         EditorOpenedEvent.TYPE,
         event -> {
           this.logInConsole("[event bus - EditorOpenedEvent]" + event.getFile());
-        });
-    this.eventBus.addHandler(
-        EditorDirtyStateChangedEvent.TYPE,
-        event -> {
-          TextEditor textEditor = (TextEditor) event.getEditor();
-          TextPosition tp = textEditor.getCursorPosition();
-          // String line = textEditor.getDocument().getgetLineAtOffset(tp.getLine());
-          this.logInConsole(
-              "[event bus - EditorDirtyStateChangedEvent]"
-                  + tp.toString()
-                  + "::"
-                  + event.getEditor().isDirty());
-          if (youSaidJOJOJustNowDidn_tYou(textEditor, tp) && event.getEditor().isDirty()) {
-            getRecommendation(textEditor, tp);
+          EditorPartPresenter editor = event.getEditor();
+          if (editor instanceof TextEditor) {
+            TextEditor textEditor = (TextEditor) editor;
+            DocumentEventBus documentEventBus =
+                textEditor.getDocument().getDocumentHandle().getDocEventBus();
+            documentEventBus.addHandler(
+                DocumentChangedEvent.TYPE,
+                documentEvent -> {
+                  String fileName =
+                      documentEvent.getDocument().getDocument().getFile().getContentUrl();
+                  if (!inputCaches.containsKey(fileName)) {
+                    inputCaches.put(fileName, "");
+                  }
+                  inputCaches.put(fileName, inputCaches.get(fileName) + documentEvent.getText());
+
+                  String currentCashe = inputCaches.get(fileName);
+
+                  this.sampleAction1Presenter.appendTextLine(
+                      "[text change event: cache]" + currentCashe);
+                  if (currentCashe.endsWith("???")) {
+
+                    getRecommendation(textEditor, textEditor.getCursorPosition());
+                    this.inputCaches.put(fileName, "");
+                  }
+                  //                          + documentEvent.getText()
+                  //                          + " : "
+                  //                          + documentEvent.getRemoveCharCount()
+                  //                          + " : "
+                  //                          + documentEvent.getAssociatedType()
+                  //                          + " : "
+                  //                          + documentEvent.getOffset());
+                });
           }
         });
+    //    this.eventBus.addHandler(
+    //        EditorDirtyStateChangedEvent.TYPE,
+    //        event -> {
+    //          TextEditor textEditor = (TextEditor) event.getEditor();
+    //          TextPosition tp = textEditor.getCursorPosition();
+    //          // String line = textEditor.getDocument().getgetLineAtOffset(tp.getLine());
+    //          this.logInConsole(
+    //              "[event bus - EditorDirtyStateChangedEvent]"
+    //                  + tp.toString()
+    //                  + "::"
+    //                  + event.getEditor().isDirty());
+    //          if (youSaidJOJOJustNowDidn_tYou(textEditor, tp) && event.getEditor().isDirty()) {
+    //            getRecommendation(textEditor, tp);
+    //          }
+    //        });
+
   }
 
   private void logInConsole(String s) {
@@ -182,5 +227,10 @@ public class SampleAction2GetWorkspaceOnQuestionMark extends BaseIntelligentAssi
   @Override
   public PartPresenter getResultPresenter() {
     return this.sampleAction2Presenter;
+  }
+
+  @Override
+  public Window getConfigWindow() {
+    return this.configWindowViewImpl;
   }
 }

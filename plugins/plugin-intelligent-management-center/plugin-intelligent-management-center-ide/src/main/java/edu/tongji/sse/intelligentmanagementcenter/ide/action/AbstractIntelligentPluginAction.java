@@ -6,27 +6,27 @@ import org.eclipse.che.ide.api.parts.PartStackType;
 import org.eclipse.che.ide.ui.window.Window;
 import org.vectomatic.dom.svg.ui.SVGResource;
 
-public abstract class BaseIntelligentAssistantAction extends BaseAction {
+public abstract class AbstractIntelligentPluginAction extends BaseAction {
 
-  public BaseIntelligentAssistantAction() {}
+  public AbstractIntelligentPluginAction() {}
 
-  public BaseIntelligentAssistantAction(String text) {
+  public AbstractIntelligentPluginAction(String text) {
     super(text);
   }
 
-  public BaseIntelligentAssistantAction(String text, String description) {
+  public AbstractIntelligentPluginAction(String text, String description) {
     super(text, description);
   }
 
-  public BaseIntelligentAssistantAction(String text, String description, SVGResource svgResource) {
+  public AbstractIntelligentPluginAction(String text, String description, SVGResource svgResource) {
     super(text, description, svgResource);
   }
 
-  public BaseIntelligentAssistantAction(String text, String description, String htmlResource) {
+  public AbstractIntelligentPluginAction(String text, String description, String htmlResource) {
     super(text, description, htmlResource);
   }
 
-  public BaseIntelligentAssistantAction(
+  public AbstractIntelligentPluginAction(
       String text, String description, SVGResource svgResource, String htmlResource) {
     super(text, description, svgResource, htmlResource);
   }

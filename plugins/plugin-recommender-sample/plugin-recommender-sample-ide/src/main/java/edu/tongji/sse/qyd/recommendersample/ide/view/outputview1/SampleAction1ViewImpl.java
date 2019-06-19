@@ -30,10 +30,17 @@ public class SampleAction1ViewImpl extends BaseView<SampleAction1View.ActionDele
     HTML html = new HTML();
     html.setHTML("<div>" + text + "</div>");
     resultTextLines.add(html);
-    while (resultTextLines.getWidgetCount() > 1000) {
+    while (resultTextLines.getWidgetCount() > 100000) {
       resultTextLines.remove(0);
     }
     scrollPanel.scrollToBottom();
+  }
+
+  @Override
+  public void clear() {
+    while (resultTextLines.getWidgetCount() > 0) {
+      resultTextLines.remove(0);
+    }
   }
 
   interface CodeRecommendResultViewImplUiBinder

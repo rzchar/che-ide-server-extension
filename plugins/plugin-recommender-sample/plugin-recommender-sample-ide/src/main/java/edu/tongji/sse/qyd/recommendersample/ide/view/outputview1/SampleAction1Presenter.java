@@ -52,4 +52,9 @@ public class SampleAction1Presenter extends BasePresenter
   public SVGResource getTitleImage() {
     return resources.getSample1Icon();
   }
+
+  @Override
+  public void clear() {
+    view.clear();
+  }
 }

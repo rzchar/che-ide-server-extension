@@ -11,8 +11,12 @@ public interface SampleAction1View extends View<SampleAction1View.ActionDelegate
 
   void appendTextLine(String text);
 
+  void clear();
+
   interface ActionDelegate extends BaseActionDelegate {
 
     void appendTextLine(String text);
+
+    void clear();
   }
 }

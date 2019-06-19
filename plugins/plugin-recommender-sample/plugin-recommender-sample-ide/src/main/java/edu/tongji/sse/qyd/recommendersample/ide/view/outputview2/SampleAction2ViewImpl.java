@@ -1,7 +1,6 @@
 package edu.tongji.sse.qyd.recommendersample.ide.view.outputview2;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.*;
@@ -39,11 +38,16 @@ public class SampleAction2ViewImpl extends BaseView<SampleAction2View.ActionDele
     for (String candidate : candidates) {
       logInPresenter1(candidate);
       HorizontalPanel candidatePanel = new HorizontalPanel();
-      HTML candidateText = new HTML();
-      SafeHtmlBuilder safeHtmlBuilder = new SafeHtmlBuilder();
-      safeHtmlBuilder.appendEscaped(candidate);
-      candidateText.setHTML(safeHtmlBuilder.toSafeHtml());
-      logInPresenter1("html succeed" + candidateText.getHTML());
+      //      HTML candidateText = new HTML();
+      //      SafeHtmlBuilder safeHtmlBuilder = new SafeHtmlBuilder(ee);
+      //      safeHtmlBuilder.appendEscaped(candidate);
+      //      candidateText.setHTML(safeHtmlBuilder.toSafeHtml());
+      //      logInPresenter1("html succeed" + candidateText.getHTML());
+
+      TextArea textArea = new TextArea();
+      textArea.setText(candidate);
+      textArea.setHeight("60px");
+      textArea.setWidth("400px");
 
       Button addToCodeButton = new Button();
       addToCodeButton.setText("addToCode");
@@ -55,7 +59,7 @@ public class SampleAction2ViewImpl extends BaseView<SampleAction2View.ActionDele
                     position.getLine(),
                     position.getCharacter(),
                     position.getLine(),
-                    position.getCharacter(),
+                    position.getCharacter() + 2,
                     candidate);
             TextPosition newPosition =
                 new TextPosition(position.getLine(), position.getCharacter() + candidate.length());
@@ -63,7 +67,8 @@ public class SampleAction2ViewImpl extends BaseView<SampleAction2View.ActionDele
           });
       logInPresenter1("button succeed" + addToCodeButton.getHTML());
       candidatePanel.add(addToCodeButton);
-      candidatePanel.add(candidateText);
+      // candidatePanel.add(candidateText);
+      candidatePanel.add(textArea);
       resultList.add(candidatePanel);
       logInPresenter1("num" + resultList.getWidgetCount());
     }

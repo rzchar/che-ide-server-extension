@@ -33,6 +33,10 @@
             line-height: consoleLineHeight;
         }
 
+        .resultTextArea {
+            right: 0px;
+        }
+
         .consoleLines {
             width: 100%;
         }

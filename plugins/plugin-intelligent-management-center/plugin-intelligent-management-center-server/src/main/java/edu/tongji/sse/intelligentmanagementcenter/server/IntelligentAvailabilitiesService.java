@@ -51,6 +51,7 @@ public class IntelligentAvailabilitiesService extends Service {
         result.put(key, jsonExistAvailabilities.getString(key));
       }
     }
+
     //    result.put("q", "true");
     return result;
   }
